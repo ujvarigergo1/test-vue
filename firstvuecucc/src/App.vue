@@ -1,8 +1,8 @@
 <template>
   <div orientation='vertical'>
     <input v-model.number="inp" type="number">
-    <button @click="test()">Teszt</button>
-    <label v-if="ertek != 0">Az ertek megvaltozott a kovetkezore: {{ertek}}</label>
+    <button @click="test()">Add</button>
+    <label v-if="inp != 0">Az ertek jelenleg: {{ertek}}</label>
   </div>
 </template>
 

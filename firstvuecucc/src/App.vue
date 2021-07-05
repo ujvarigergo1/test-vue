@@ -1,8 +1,10 @@
 <template>
-  <div orientation='vertical'>
-    <input v-model.number="inp" type="number">
-    <button @click="test()">Add</button>
-    <label v-if="inp != 0">Az ertek jelenleg: {{ertek}}</label>
+  <div class="d-flex align-items-center flex-column">
+    <div>
+      <input v-model.number="inp" type="number">
+      <button @click="test()" :disabled="nemLezarhato">Add</button>
+    </div>
+    <label v-if="szovegLatszik">Az ertek jelenleg: {{ertek}}</label>
   </div>
 </template>
 
@@ -10,16 +12,23 @@
 
 export default {
   name: 'App',
-  data() {
+
+  data: function() {
       return {
         ertek: 0,
-        inp: 0
+        inp: 0,
+        szovegLatszik: false
       }
-    },
-     methods: {
+  },
+  methods: {
     test() {
-      this.ertek += this.inp
-      
+      this.ertek += this.inp;
+      this.szovegLatszik = true;
+    }
+  },
+  computed: {
+    nemLezarhato() {
+      return this.inp == 0 || this.imp == ''
     }
   }
 }

@@ -6,6 +6,8 @@
     </div>
     <label v-if="szovegLatszik">Az ertek jelenleg: {{ertek}}</label>
 
+    <Info :num="this.ertek" @resetCounter="this.ertek = 0"></Info>
+
     <table class="table table-striped">
       <thead>
         <tr>
@@ -35,8 +37,10 @@
 </template>
 
 <script>
+import Info from './components/Info.vue';
 
 export default {
+  components: { Info },
   name: 'App',
 
   data: function() {

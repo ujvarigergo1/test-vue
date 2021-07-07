@@ -1,6 +1,5 @@
-import { App } from '@capacitor/app';
+
 import { createRouter, createWebHistory } from '@ionic/vue-router';
-import { RouteRecordRaw } from 'vue-router';
 import ApplicationLayout from '../views/layouts/ApplicationLayout.vue';
 import AuthLayout from '../views/layouts/AuthLayout.vue'
 import store from "../store";
@@ -71,12 +70,23 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => record.meta.guestOnly)) {
+    
+    if (to.matched.some(record => record.meta.guestOnly)) {
+        if (to.fullPath === '/auth/login' && store.getters.user != undefined && store.getters.user.uuid){
+            next('/app/controlpanel')
+            return
+        }
       next()
-  } else {
+    } else {
       if (store.getters.user.uuid) {
-          next()
-          return
+        if (to.fullPath === '/app/logout'){
+            localStorage.removeItem("app_user")
+            next('/auth/login')
+            return
+        }
+        
+        next()
+        return
       }
       next('/auth/login')
   }

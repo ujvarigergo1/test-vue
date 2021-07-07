@@ -9,7 +9,7 @@ export default createStore({
   getters: {
     isLoggedIn: state => !!state.token,
     authStatus: state => state.status,
-    user: state => state.user
+    user: state => state.user = JSON.parse(localStorage.getItem('app_user') || '{}')
   },
   mutations: {
   },

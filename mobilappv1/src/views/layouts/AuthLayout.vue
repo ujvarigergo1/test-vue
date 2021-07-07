@@ -1,7 +1,5 @@
 <template>
-    <div>
-         <router-view></router-view>
-    </div>
+    <router-view @succesfulLogin="this.$emit('succesfulLogin')"></router-view>
 </template>
 
 <script>

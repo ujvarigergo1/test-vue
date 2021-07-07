@@ -1,7 +1,7 @@
 <template>
     <div class="center">
         <ion-item class="login-element"> 
-            <ion-input placeholder="Felhasználónév"></ion-input>
+            <ion-input placeholder="Email cím"></ion-input>
         </ion-item>
         <ion-item class="login-element"> 
             <ion-input placeholder="Jelszó"></ion-input>
@@ -11,10 +11,15 @@
 </template>
 
 <script>
+import { IonButton, IonItem, IonInput } from '@ionic/vue';
 import { defineComponent } from 'vue';
-import router from '../../router/'
 export default defineComponent({
     name: 'Login',
+    components: {
+        IonButton,
+        IonItem,
+        IonInput
+    },
     methods: {
         storeUser(){
             const user = {
@@ -26,7 +31,8 @@ export default defineComponent({
                             'partner_name': "partner"
                         }
             localStorage.setItem("app_user",JSON.stringify(user))
-            router.push('/app/controlpanel')
+            this.$emit('succesfulLogin')
+            this.$router.push('/app/controlpanel')
         }
     }
 })
@@ -34,15 +40,18 @@ export default defineComponent({
 
 <style scoped>
 .login-element{
-    max-width: 300px;
-    margin: 20px;
+    margin: auto;
+    margin-bottom: 20px;
+    max-width: 500px;
+    
 }
 .center{
-    text-align: center;
+    align-content: center;
     position: absolute;
-    left: 0;
-    right: 0;
+    left: 5%;
+    right: 5%;
     top: 50%;
+    margin: auto;
     transform: translateY(-50%);
 }
 

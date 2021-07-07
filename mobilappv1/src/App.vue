@@ -23,19 +23,19 @@
             <ion-buttons slot="start">
               <ion-menu-button color="primary"></ion-menu-button>
             </ion-buttons>
-            <ion-title>Vezérlőpult</ion-title>
+            <ion-title>{{title}}</ion-title>
           </ion-toolbar>
         </ion-header>
         
         <ion-content :fullscreen="false" >
           <ion-header collapse="condense">
             <ion-toolbar>
-              <ion-title size="large">Vezérlőpult</ion-title>
+              <ion-title size="large">{{title}}</ion-title>
             </ion-toolbar>
           </ion-header>
         
           <div id="container">
-            <ion-router-outlet ></ion-router-outlet>
+            <ion-router-outlet @succesfulLogin="valami()"></ion-router-outlet>
           </div>
         </ion-content>
       </ion-page>
@@ -72,39 +72,60 @@ export default defineComponent({
     IonToolbar,
     IonPage
   },
+  methods:{
+    valami(){
+      this.selectedIndex = 0
+    }
+  },
+  computed:{
+    title(){
+      const tmp = this.$route.matched
+      const def = tmp[tmp.length-1].props.default
+      //console.log(def.title)
+      return def
+    },
+    appPages(){
+      if (this.$route.fullPath == "/auth/login")
+        return [ {
+            title: 'Login ',
+            url: '/app/controlpanel',
+            iosIcon: list,
+            mdIcon: list
+          }]
+      else
+        return [
+          {
+            title: 'Vezérlőpult ',
+            url: '/app/controlpanel',
+            iosIcon: list,
+            mdIcon: list
+          },
+          {
+            title: 'Munkalapok',
+            url: '/app/worksheets',
+            iosIcon: readerOutline,
+            mdIcon: readerOutline
+          },
+          {
+            title: 'Kijelentkezés ',
+            url: '/app/logout',
+            iosIcon: logOutOutline,
+            mdIcon: logOutOutline
+          },
+      ]
+        
+    }
+  },
   setup() {
+    
     const selectedIndex = ref(0);
-    const appPages = [
-      {
-        title: 'Vezérlőpult ',
-        url: '/app/controlpanel',
-        iosIcon: list,
-        mdIcon: list
-      },
-      {
-        title: 'Munkalapok',
-        url: '/app/worksheets',
-        iosIcon: readerOutline,
-        mdIcon: readerOutline
-      },
-      {
-        title: 'Kijelentkezés ',
-        url: '/app/logout',
-        iosIcon: logOutOutline,
-        mdIcon: logOutOutline
-      },
-    ];
     
     
     
     const route = useRoute();
-    
-    console.log(route.meta)
-
+    console.log(route.matched)
     return { 
-      selectedIndex,
-      appPages,
-      isSelected: (url: string) => url === route.path ? 'selected' : ''
+      selectedIndex
     }
   }
 });

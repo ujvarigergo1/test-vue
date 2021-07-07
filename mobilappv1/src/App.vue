@@ -17,16 +17,38 @@
 
         </ion-content>
       </ion-menu>
-      <ion-router-outlet id="main-content"></ion-router-outlet>
+      <ion-page id="main-content">
+        <ion-header :translucent="true">
+          <ion-toolbar>
+            <ion-buttons slot="start">
+              <ion-menu-button color="primary"></ion-menu-button>
+            </ion-buttons>
+            <ion-title>Vezérlőpult</ion-title>
+          </ion-toolbar>
+        </ion-header>
+        
+        <ion-content :fullscreen="false" >
+          <ion-header collapse="condense">
+            <ion-toolbar>
+              <ion-title size="large">Vezérlőpult</ion-title>
+            </ion-toolbar>
+          </ion-header>
+        
+          <div id="container">
+            <ion-router-outlet ></ion-router-outlet>
+          </div>
+        </ion-content>
+      </ion-page>
     </IonSplitPane>
+    
   </IonApp>
 </template>
 
 <script lang="ts">
-import { IonApp, IonContent, IonIcon, IonItem, IonLabel, IonList, IonListHeader, IonMenu, IonMenuToggle, IonNote, IonRouterOutlet, IonSplitPane } from '@ionic/vue';
+import { IonHeader, IonTitle, IonToolbar, IonButtons, IonMenuButton,IonPage, IonApp, IonContent, IonIcon, IonItem, IonLabel, IonList, IonListHeader, IonMenu, IonMenuToggle, IonNote, IonRouterOutlet, IonSplitPane } from '@ionic/vue';
 import { defineComponent, ref } from 'vue';
 import { useRoute } from 'vue-router';
-import { archiveOutline, archiveSharp, bookmarkOutline, bookmarkSharp, heartOutline, heartSharp, mailOutline, mailSharp, paperPlaneOutline, paperPlaneSharp, trashOutline, trashSharp, warningOutline, warningSharp } from 'ionicons/icons';
+import { list,readerOutline, logOutOutline} from 'ionicons/icons';
 
 export default defineComponent({
   name: 'App',
@@ -43,61 +65,50 @@ export default defineComponent({
     IonNote, 
     IonRouterOutlet, 
     IonSplitPane,
+    IonButtons,
+    IonHeader,
+    IonMenuButton,
+    IonTitle,
+    IonToolbar,
+    IonPage
   },
   setup() {
     const selectedIndex = ref(0);
     const appPages = [
       {
         title: 'Vezérlőpult ',
-        url: '/',
-        iosIcon: mailOutline,
-        mdIcon: mailSharp
+        url: '/app/controlpanel',
+        iosIcon: list,
+        mdIcon: list
       },
       {
         title: 'Munkalapok',
-        url: '/worksheets',
-        iosIcon: paperPlaneOutline,
-        mdIcon: paperPlaneSharp
+        url: '/app/worksheets',
+        iosIcon: readerOutline,
+        mdIcon: readerOutline
       },
       {
-        title: 'kijelentkezés ',
-        url: '/logout',
-        iosIcon: heartOutline,
-        mdIcon: heartSharp
+        title: 'Kijelentkezés ',
+        url: '/app/logout',
+        iosIcon: logOutOutline,
+        mdIcon: logOutOutline
       },
     ];
     
-    const path = window.location.pathname.split('/')[1];
-    console.log(path)
-    if (path !== undefined) {
-      selectedIndex.value = appPages.findIndex(page => page.title.toLowerCase() === path.toLowerCase());
-    }
+    
     
     const route = useRoute();
     
+    console.log(route.meta)
+
     return { 
       selectedIndex,
       appPages,
-      archiveOutline, 
-      archiveSharp, 
-      bookmarkOutline, 
-      bookmarkSharp, 
-      heartOutline, 
-      heartSharp, 
-      mailOutline, 
-      mailSharp, 
-      paperPlaneOutline, 
-      paperPlaneSharp, 
-      trashOutline, 
-      trashSharp, 
-      warningOutline, 
-      warningSharp,
       isSelected: (url: string) => url === route.path ? 'selected' : ''
     }
   }
 });
 </script>
-
 <style scoped>
 #nav-split-pane{
   --side-max-width: 300px;

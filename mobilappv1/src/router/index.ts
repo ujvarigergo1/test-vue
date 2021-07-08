@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from '@ionic/vue-router';
 import ApplicationLayout from '../views/layouts/ApplicationLayout.vue';
 import AuthLayout from '../views/layouts/AuthLayout.vue'
 import store from "../store";
+import { ref } from 'vue';
 
  
 const routes = [
@@ -21,9 +22,9 @@ const routes = [
         {
             path: 'login',
             component: () => import('@/views/auth/Login.vue'),
-            props: {title: "Bejelentkezés", subtitle: "Jelentkezzen be az alkalmazás használatához"},
             meta: {
-                guestOnly: true
+                guestOnly: true,
+                title: "Bejelentkezés"
             }
         }
     ]
@@ -39,25 +40,25 @@ const routes = [
       {
           path: 'controlpanel',
           component: () => import('@/views/tabs/ControlPanel.vue'),
-          props: {title: "Vezérlőpult", subtitle: "??"},
           meta: {
-              guestOnly: false
+              guestOnly: false,
+              title: "Vezérlőpult"
           }
       },
       {
         path: 'worksheets',
         component: () => import('@/views/tabs/Worksheet.vue'),
-        props: {title: "Munkalapok", subtitle: "??"},
         meta: {
-            guestOnly: false
+            guestOnly: false,
+            title: "Munkalapok"
         }
     },
     {
       path: 'logout',
       component: () => import('@/views/tabs/Logout.vue'),
-      props: {title: "Kijelentkezés", subtitle: "??"},
       meta: {
-          guestOnly: false
+          guestOnly: false,
+          title: "Kijelentkezés"
       }
   }
   ]
@@ -81,6 +82,7 @@ router.beforeEach((to, from, next) => {
       if (store.getters.user.uuid) {
         if (to.fullPath === '/app/logout'){
             localStorage.removeItem("app_user")
+            store.state.selectedTabIndex = ref(0);
             next('/auth/login')
             return
         }

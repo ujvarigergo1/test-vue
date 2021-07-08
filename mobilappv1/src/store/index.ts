@@ -1,7 +1,9 @@
 import { createStore } from 'vuex'
+import {ref} from 'vue'
 
 export default createStore({
   state: {
+    selectedTabIndex: ref(0),
     status: '',
     token: localStorage.getItem('token') || '',
     user: JSON.parse(localStorage.getItem('app_user') || '{}'),

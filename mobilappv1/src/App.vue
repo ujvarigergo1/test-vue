@@ -4,11 +4,11 @@
       <ion-menu content-id="main-content" type="reveal">
         <ion-content>
           <ion-list id="inbox-list">
-            <ion-list-header>Inbox</ion-list-header>
-            <ion-note>hi@ionicframework.com</ion-note>
+            <ion-list-header>{{$store.state.user.last_name || "Kijelentkezve"}}</ion-list-header>
+            <ion-note>{{$store.state.user.email || "Jelentkezz be az alkalmazás használatához"}}</ion-note>
   
             <ion-menu-toggle auto-hide="false" v-for="(p, i) in appPages" :key="i">
-              <ion-item @click="selectedIndex = i" router-direction="root" :router-link="p.url" lines="none" detail="false" class="hydrated" :class="{ selected: selectedIndex === i }">
+              <ion-item @click="$store.state.selectedTabIndex = i" router-direction="root" :router-link="p.url" lines="none" detail="false" class="hydrated" :class="{ selected: $store.state.selectedTabIndex === i }">
                 <ion-icon slot="start" :ios="p.iosIcon" :md="p.mdIcon"></ion-icon>
                 <ion-label>{{ p.title }}</ion-label>
               </ion-item>
@@ -35,7 +35,7 @@
           </ion-header>
         
           <div id="container">
-            <ion-router-outlet @succesfulLogin="valami()"></ion-router-outlet>
+            <ion-router-outlet ></ion-router-outlet>
           </div>
         </ion-content>
       </ion-page>
@@ -48,7 +48,8 @@
 import { IonHeader, IonTitle, IonToolbar, IonButtons, IonMenuButton,IonPage, IonApp, IonContent, IonIcon, IonItem, IonLabel, IonList, IonListHeader, IonMenu, IonMenuToggle, IonNote, IonRouterOutlet, IonSplitPane } from '@ionic/vue';
 import { defineComponent, ref } from 'vue';
 import { useRoute } from 'vue-router';
-import { list,readerOutline, logOutOutline} from 'ionicons/icons';
+import { logInOutline, list,readerOutline, logOutOutline} from 'ionicons/icons';
+import store from './store/index';
 
 export default defineComponent({
   name: 'App',
@@ -72,25 +73,21 @@ export default defineComponent({
     IonToolbar,
     IonPage
   },
-  methods:{
-    valami(){
-      this.selectedIndex = 0
-    }
-  },
+  
   computed:{
     title(){
       const tmp = this.$route.matched
-      const def = tmp[tmp.length-1].props.default
+      const title = tmp[tmp.length-1].meta.title
       //console.log(def.title)
-      return def
+      return title
     },
     appPages(){
       if (this.$route.fullPath == "/auth/login")
         return [ {
-            title: 'Login ',
+            title: 'Bejelentkezés ',
             url: '/app/controlpanel',
-            iosIcon: list,
-            mdIcon: list
+            iosIcon: logInOutline,
+            mdIcon: logInOutline
           }]
       else
         return [
@@ -118,14 +115,11 @@ export default defineComponent({
   },
   setup() {
     
-    const selectedIndex = ref(0);
-    
     
     
     const route = useRoute();
     console.log(route.matched)
     return { 
-      selectedIndex
     }
   }
 });

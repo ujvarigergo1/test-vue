@@ -14,6 +14,10 @@ export default createStore({
     user: state => state.user = JSON.parse(localStorage.getItem('app_user') || '{}')
   },
   mutations: {
+    logout(state){
+      state.selectedTabIndex = ref(0);
+      localStorage.removeItem("app_user");
+    }
   },
   actions: {
   },

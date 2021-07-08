@@ -71,16 +71,22 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-    
+    console.log("beforeeach")
     if (to.matched.some(record => record.meta.guestOnly)) {
-        if (to.fullPath === '/auth/login' && store.getters.user != undefined && store.getters.user.uuid){
+        console.log("guestonly")
+        if (to.fullPath == '/auth/login' && store.getters.user.uuid){
+            console.log("controlpanel")
             next('/app/controlpanel')
             return
         }
       next()
+      return
     } else {
       if (store.getters.user.uuid) {
-        if (to.fullPath === '/app/logout'){
+        console.log("suestonly false")
+        console.log(to)
+        if (to.fullPath == '/app/logout'){
+            console.log("logout")
             localStorage.removeItem("app_user")
             store.state.selectedTabIndex = ref(0);
             next('/auth/login')
@@ -90,6 +96,7 @@ router.beforeEach((to, from, next) => {
         next()
         return
       }
+      console.log("login")
       next('/auth/login')
   }
 })

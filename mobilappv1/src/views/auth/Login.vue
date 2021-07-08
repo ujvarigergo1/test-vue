@@ -31,7 +31,7 @@ export default defineComponent({
                             'partner_name': "partner"
                         }
             localStorage.setItem("app_user",JSON.stringify(user))
-            this.$emit('succesfulLogin')
+            this.$store.user = user
             this.$router.push('/app/controlpanel')
         }
     }

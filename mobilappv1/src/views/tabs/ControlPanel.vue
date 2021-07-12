@@ -1,10 +1,10 @@
 <template>
 <ion-page>
     <ion-grid>
-        <ion-row v-for="i in (this.cards.length-this.cards.length % 2) / 2 +1" :key="i">
-            <ion-col v-for="item in this.cards.slice((i-1)*2,(i-1)*2+2)" :key="item" size="6">
+        <ion-row >
+            <ion-col v-for="item in this.cards" :key="item" size-xs="6" size-sm="4" size-md="4" size-lg="3" size-xl="2">
                 <DashboardCard :subheader="item.subheader" :header="item.header"
-                     :computedLinkColor="item.color"/>
+                     :linkColor="item.color" :link="item.url"/>
             </ion-col>
         </ion-row>
     </ion-grid>
@@ -30,25 +30,25 @@ export default defineComponent({
             {
             subheader: 'Nyitott munkalapok',
             header: '1500',
-            url: '/app/controlpanel',
+            url: '/app/1',
             color: 'green'
           },
           {
             subheader: 'Naptár',
             header: '1500',
-            url: '/app/controlpanel',
+            url: '/app/2',
             color: 'blue'
           },
           {
             subheader: 'Értesítések ',
             header: '1500',
-            url: '/app/controlpanel',
+            url: '/app/3',
             color: 'red'
           },
           {
             subheader: 'Sárga ',
             header: '237321',
-            url: '/app/controlpanel',
+            url: '/app/4',
             color: 'orange'
           }
         ]

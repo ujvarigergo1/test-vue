@@ -71,32 +71,23 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-    console.log("beforeeach")
+    //Bejelentkezve nem enged loginolni
+    if (to.fullPath == '/auth/login' && store.getters.user.uuid){
+        next('/app/controlpanel')
+    } else
+    //kijelentkezés (Csak bejelentkezve)
+    if (to.fullPath == '/app/logout' && store.getters.user.uuid){
+        store.commit('logout')
+        next()
+        return
+    } else
     if (to.matched.some(record => record.meta.guestOnly)) {
-        console.log("guestonly")
-        if (to.fullPath == '/auth/login' && store.getters.user.uuid){
-            console.log("controlpanel")
-            next('/app/controlpanel')
-            return
-        }
       next()
-      return
     } else {
       if (store.getters.user.uuid) {
-        console.log("suestonly false")
-        console.log(to)
-        if (to.fullPath == '/app/logout'){
-            console.log("logout")
-            localStorage.removeItem("app_user")
-            store.state.selectedTabIndex = ref(0);
-            next('/auth/login')
-            return
-        }
-        
         next()
         return
       }
-      console.log("login")
       next('/auth/login')
   }
 })

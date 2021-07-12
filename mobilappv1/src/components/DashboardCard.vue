@@ -1,5 +1,5 @@
 <template>
-    <ion-card href="#" :class="computedLinkColor">
+    <ion-card :class="linkColor" :router-link="link" router-direction="root" button="true">
         <div >
             <ion-icon slot="start" :ios="arrowForwardCircleOutline" :md="arrowForwardCircleOutline"></ion-icon>
         </div>
@@ -18,7 +18,8 @@ export default defineComponent({
     props:{
         header: String,
         subheader: String,
-        computedLinkColor: String
+        linkColor: String,
+        link: String
         
     },
     data: () => {

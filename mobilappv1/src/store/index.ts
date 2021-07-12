@@ -1,5 +1,7 @@
 import { createStore } from 'vuex'
 import {ref} from 'vue'
+import router from "../router";
+
 
 export default createStore({
   state: {
@@ -17,6 +19,7 @@ export default createStore({
     logout(state){
       state.selectedTabIndex = ref(0);
       localStorage.removeItem("app_user");
+      router.push('/auth/login')
     }
   },
   actions: {

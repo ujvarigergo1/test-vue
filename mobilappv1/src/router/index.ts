@@ -1,9 +1,8 @@
 
 import { createRouter, createWebHistory } from '@ionic/vue-router';
 import ApplicationLayout from '../views/layouts/ApplicationLayout.vue';
-import AuthLayout from '../views/layouts/AuthLayout.vue'
+import AuthLayout from '../views/layouts/AuthLayout.vue';
 import store from "../store";
-import { ref } from 'vue';
 
  
 const routes = [
@@ -59,18 +58,32 @@ const routes = [
       meta: {
           guestOnly: false,
           title: "Kijelentkezés"
-      }
-  }
+      },
+  },
+ 
   ]
 },
 ]
+
+
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
 })
 
+
+
 router.beforeEach((to, from, next) => {
+    //Ha nem létezik a link
+    if(to.matched.length == 0) {
+        if (store.getters.isLoggedIn)
+            next('/app/controlpanel')
+        else
+            next('/auth/login')
+        return
+    }
+
     //Bejelentkezve nem enged loginolni
     if (to.fullPath == '/auth/login' && store.getters.user.uuid){
         next('/app/controlpanel')
@@ -91,5 +104,8 @@ router.beforeEach((to, from, next) => {
       next('/auth/login')
   }
 })
+
+
+
 
 export default router

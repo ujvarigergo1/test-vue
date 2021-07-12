@@ -46,10 +46,8 @@
 
 <script lang="ts">
 import { IonHeader, IonTitle, IonToolbar, IonButtons, IonMenuButton,IonPage, IonApp, IonContent, IonIcon, IonItem, IonLabel, IonList, IonListHeader, IonMenu, IonMenuToggle, IonNote, IonRouterOutlet, IonSplitPane } from '@ionic/vue';
-import { defineComponent, ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { defineComponent } from 'vue';
 import { logInOutline, list,readerOutline, logOutOutline} from 'ionicons/icons';
-import store from './store/index';
 
 export default defineComponent({
   name: 'App',

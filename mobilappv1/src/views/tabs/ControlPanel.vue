@@ -50,7 +50,7 @@ export default defineComponent({
             header: '237321',
             url: '/app/4',
             color: 'orange'
-          }
+          },
         ]
         return {cards}
     },

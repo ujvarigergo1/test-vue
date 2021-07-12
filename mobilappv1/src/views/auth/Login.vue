@@ -1,35 +1,50 @@
 <template>
+<ion-page>
     <div class="center">
         <ion-item class="login-element"> 
-            <ion-input placeholder="Email cím"></ion-input>
+            <ion-input v-model="email" placeholder="Email cím"></ion-input>
         </ion-item>
         <ion-item class="login-element"> 
-            <ion-input placeholder="Jelszó"></ion-input>
+            <ion-input v-model="password" placeholder="Jelszó" type="password"></ion-input>
         </ion-item>
-         <ion-button @click="storeUser()" expand="block" class="login-element">Bejelentkezés</ion-button>
+         <ion-button :disabled="loginEnabled" @click="storeUser" type="submit" expand="block" class="login-element">Bejelentkezés</ion-button>
     </div>
+</ion-page>
 </template>
 
 <script>
-import { IonButton, IonItem, IonInput } from '@ionic/vue';
+import { IonButton, IonItem, IonInput, IonPage } from '@ionic/vue';
 import { defineComponent } from 'vue';
 export default defineComponent({
     name: 'Login',
     components: {
         IonButton,
         IonItem,
-        IonInput
+        IonInput,
+        IonPage
     },
+    computed:{
+        loginEnabled(){
+            return !(this.password != '' && this.email != '')
+        }
+    },
+    data: function() {
+      return {
+        email: '',
+        password: ''
+      }
+  },
     methods: {
         storeUser(){
             const user = {
                             'first_name': "valami",
                             'last_name': "akárki",
-                            email: "email",
+                            email: this.email,
                             token: "random valami",
                             uuid: "szintén random akármi",
                             'partner_name': "partner"
                         }
+                        console.log(user)
             localStorage.setItem("app_user",JSON.stringify(user))
             this.$store.user = user
             this.$router.push('/app/controlpanel')

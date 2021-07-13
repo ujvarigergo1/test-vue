@@ -30,7 +30,7 @@ export default defineComponent({
             {
             subheader: 'Nyitott munkalapok',
             header: '1500',
-            url: '/app/1',
+            url: '/app/worksheets',
             color: 'green'
           },
           {
@@ -40,16 +40,28 @@ export default defineComponent({
             color: 'blue'
           },
           {
-            subheader: 'Értesítések ',
+            subheader: 'Értesítések',
             header: '1500',
             url: '/app/3',
             color: 'red'
           },
           {
-            subheader: 'Sárga ',
+            subheader: 'Sárga',
             header: '237321',
             url: '/app/4',
             color: 'orange'
+          },
+          {
+            subheader: 'Szürke',
+            header: '237321',
+            url: '/app/5',
+            color: 'gray'
+          },
+          {
+            subheader: 'Lila',
+            header: '237321',
+            url: '/app/6',
+            color: 'purple'
           },
         ]
         return {cards}

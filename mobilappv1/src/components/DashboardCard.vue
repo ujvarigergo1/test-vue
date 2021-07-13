@@ -105,5 +105,17 @@ ion-card-title {
         background: rgb(231, 136, 27);
     }
 }
+.gray{
+    background: rgb(117, 117, 117);
+    div{
+        background: rgb(66, 66, 66);
+    }
+}
+.purple{
+    background: rgb(194, 59, 235);
+    div{
+        background: rgb(171, 0, 187);
+    }
+}
 
 </style>

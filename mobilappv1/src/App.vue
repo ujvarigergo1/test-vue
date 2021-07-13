@@ -8,7 +8,7 @@
             <ion-note>{{$store.state.user.email || "Jelentkezz be az alkalmazás használatához"}}</ion-note>
   
             <ion-menu-toggle auto-hide="false" v-for="(p, i) in appPages" :key="i">
-              <ion-item @click="$store.state.selectedTabIndex = i" router-direction="root" :router-link="p.url" lines="none" detail="false" class="hydrated" :class="{ selected: $store.state.selectedTabIndex === i }">
+              <ion-item  router-direction="root" :router-link="p.url" lines="none" detail="false" class="hydrated" :class="{ selected: p.selected }">
                 <ion-icon slot="start" :ios="p.iosIcon" :md="p.mdIcon"></ion-icon>
                 <ion-label>{{ p.title }}</ion-label>
               </ion-item>
@@ -76,40 +76,52 @@ export default defineComponent({
     title(){
       const tmp = this.$route.matched
       const title = tmp[tmp.length-1].meta.title
-      //console.log(def.title)
+      console.log(tmp)
       return title
     },
     appPages(){
+      let pages
       if (this.$route.fullPath == "/auth/login")
-        return [ {
+        pages = [ {
             title: 'Bejelentkezés ',
-            url: '/app/controlpanel',
+            url: '/auth/login',
             iosIcon: logInOutline,
-            mdIcon: logInOutline
+            mdIcon: logInOutline,
+            selected: true
           }]
       else
-        return [
+        pages = [
           {
             title: 'Vezérlőpult ',
             url: '/app/controlpanel',
             iosIcon: list,
-            mdIcon: list
+            mdIcon: list,
+            selected: true
           },
           {
             title: 'Munkalapok',
             url: '/app/worksheets',
             iosIcon: readerOutline,
-            mdIcon: readerOutline
+            mdIcon: readerOutline,
+            selected: false
           },
           {
             title: 'Kijelentkezés ',
             url: '/app/logout',
             iosIcon: logOutOutline,
-            mdIcon: logOutOutline
+            mdIcon: logOutOutline,
+            selected: false
           },
       ]
-        
-    }
+      pages.forEach(element => {
+        if (element.url == this.$route.fullPath)
+          element.selected = true
+        else 
+          element.selected = false
+      });
+      return pages
+      
+    },
   },
   setup() {
     return { 

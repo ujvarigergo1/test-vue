@@ -4,7 +4,7 @@
       <ion-menu content-id="main-content" type="reveal">
         <ion-content>
           <ion-list id="inbox-list">
-            <ion-list-header>{{$store.state.user.last_name || "Kijelentkezve"}}</ion-list-header>
+            <ion-list-header>{{$store.state.user.first_name || "Kijelentkezve"}}</ion-list-header>
             <ion-note>{{$store.state.user.email || "Jelentkezz be az alkalmazás használatához"}}</ion-note>
   
             <ion-menu-toggle auto-hide="false" v-for="(p, i) in appPages" :key="i">

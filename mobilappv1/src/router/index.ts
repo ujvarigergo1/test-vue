@@ -2,7 +2,10 @@
 import { createRouter, createWebHistory } from '@ionic/vue-router';
 import ApplicationLayout from '../views/layouts/ApplicationLayout.vue';
 import AuthLayout from '../views/layouts/AuthLayout.vue';
+import Load from '../views/tabs/Load.vue'
 import store from "../store";
+import axios from 'axios';
+import { configWithAuth } from '@/store/api_configs';
 
  
 const routes = [
@@ -63,6 +66,15 @@ const routes = [
  
   ]
 },
+{
+    path: '/load',
+    component: Load,
+    props: true,
+    meta: {
+        guestOnly: true,
+        title: "Loading"
+    }
+}
 ]
 
 
@@ -74,7 +86,19 @@ const router = createRouter({
 
 
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
+    if (to.fullPath == from.fullPath)
+        next(false)
+    let isLoggedIn
+    if(store.state.user.token){
+        isLoggedIn = await axios(configWithAuth('post','check-token-validity',{})).then( (response) => {
+        return response.data.success
+      })
+    }else {
+        isLoggedIn = false
+    }
+    console.log(isLoggedIn)
+    console.log(to)
     //Ha nem létezik a link
     if(to.matched.length == 0) {
         if (store.getters.isLoggedIn)
@@ -83,21 +107,21 @@ router.beforeEach((to, from, next) => {
             next('/auth/login')
         return
     }
-
+    
     //Bejelentkezve nem enged loginolni
-    if (to.fullPath == '/auth/login' && store.getters.user.uuid){
+    if (to.fullPath == '/auth/login' && isLoggedIn){
         next('/app/controlpanel')
     } else
     //kijelentkezés (Csak bejelentkezve)
-    if (to.fullPath == '/app/logout' && store.getters.user.uuid){
+    if (to.fullPath == '/app/logout' && isLoggedIn){
         store.commit('logout')
-        next()
+        next(false)
         return
     } else
     if (to.matched.some(record => record.meta.guestOnly)) {
       next()
     } else {
-      if (store.getters.user.uuid) {
+      if (isLoggedIn) {
         next()
         return
       }

@@ -7,13 +7,17 @@
         <ion-item class="login-element"> 
             <ion-input v-model="password" placeholder="Jelszó" type="password"></ion-input>
         </ion-item>
+        <ion-item lines="none" class="login-element">
+            <ion-checkbox v-model="checked"/>
+            <ion-label> Emlékezz rám</ion-label>
+          </ion-item>
          <ion-button :disabled="loginEnabled" @click="storeUser" type="submit" expand="block" class="login-element">Bejelentkezés</ion-button>
     </div>
 </ion-page>
 </template>
 
 <script>
-import { IonButton, IonItem, IonInput, IonPage } from '@ionic/vue';
+import { IonButton, IonItem, IonInput, IonPage, IonLabel,IonCheckbox } from '@ionic/vue';
 import { defineComponent } from 'vue';
 export default defineComponent({
     name: 'Login',
@@ -21,7 +25,9 @@ export default defineComponent({
         IonButton,
         IonItem,
         IonInput,
-        IonPage
+        IonPage,
+        IonCheckbox,
+        IonLabel
     },
     computed:{
         loginEnabled(){
@@ -30,24 +36,15 @@ export default defineComponent({
     },
     data: function() {
       return {
-        email: '',
-        password: ''
+        email: this.$store.state.rememberMe,
+        password: '',
+        checked: this.$store.state.rememberMe != ""
       }
   },
     methods: {
         storeUser(){
-            const user = {
-                            'first_name': "valami",
-                            'last_name': "akárki",
-                            email: this.email,
-                            token: "random valami",
-                            uuid: "szintén random akármi",
-                            'partner_name': "partner"
-                        }
-                        console.log(user)
-            localStorage.setItem("app_user",JSON.stringify(user))
-            this.$store.user = user
-            this.$router.push('/app/controlpanel')
+            localStorage.setItem("rememberme", this.checked ? this.email : "")
+            this.$store.commit('login', {email: this.email, pass: this.password})
         }
     }
 })
